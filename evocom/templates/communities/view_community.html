@@ -1,0 +1,234 @@
+<!-- communities/templates/communities/view_community.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ community.name }} - EvoCom</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <style>
+        .community-section {
+            padding: 100px 0;
+            background: #f9f9f9;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: #777;
+        }
+
+        .community-item {
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .community-item:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .ci-pic img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .ci-text {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .ci-text h5 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .ci-text p {
+            font-size: 1.125rem;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            background: #ff5722;
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: background 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            background: #e64a19;
+        }
+
+        .footer-section {
+            background: #333;
+            color: #fff;
+            padding: 50px 0;
+        }
+
+        .footer-text {
+            text-align: center;
+        }
+
+        .ft-logo img {
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .copyright-text {
+            margin-bottom: 20px;
+        }
+
+        .ft-social a {
+            display: inline-block;
+            color: #fff;
+            font-size: 1.25rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .ft-social a:hover {
+            color: #ff5722;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloader -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header-section">
+        <div class="container">
+            <div class="logo">
+                <a href="{% url 'users:member_index' %}">
+                    <img src="{% static 'img/logo-black.png' %}" height="100px" alt="logo">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <nav class="mainmenu mobile-menu">
+                    <ul>
+                        <li><a href="{% url 'users:member_index' %}">Home</a></li>
+                        <li><a href="{% url 'communities:show_communities' %}">Explore</a></li>
+                        <li><a href="{% url 'communities:joined_communities' %}">My Communities</a></li>
+                        <li><a href="{% url 'users:user_profile' %}">Hi, {{ user.username }}</a></li>
+                    </ul>
+                </nav>
+                <a href="{% url 'users:logout' %}" class="primary-btn top-btn">Logout</a>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Community Details Section Begin -->
+    <section class="community-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>{{ community.name }}</h2>
+                        <p>{{ community.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="community-item">
+                        <div class="ci-pic">
+                            <img src="{{ community.cover.url }}" alt="{{ community.name }}">
+                        </div>
+                        <div class="ci-text">
+                            <h5>{{ community.name }}</h5>
+                            <p>{{ community.description }}</p>
+                            {% if not is_member %}
+                            <form method="post" action="{% url 'communities:join_community' community.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="primary-btn">Join Community</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Community Details Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-text">
+                        <div class="ft-logo">
+                            <a href="#" class="footer-logo"><img src="{% static 'img/footer-logo.png' %}" height="100"
+                                    alt="EvoCom Logo"></a>
+                        </div>
+                        <div class="copyright-text">
+                            <p>&copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | <a
+                                    href="#" target="_blank">EvoCom</a>
+                            </p>
+                        </div>
+                        <div class="ft-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

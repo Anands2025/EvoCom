@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Light gray background */
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff; /* White background */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #ff6666; /* Light red background */
+            color: #ffffff; /* White text color */
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .logo {
+            margin-bottom: 20px;
+            width: 100px; /* Adjust size as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        .content {
+            padding: 20px;
+            text-align: left;
+            color: #333333; /* Dark text color */
+        }
+        .footer {
+            background-color: #f0f0f0; /* Light gray background */
+            padding: 10px;
+            text-align: center;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            color: #666666; /* Medium dark text color */
+        }
+        .button {
+            background-color: #ff6666; /* Light red background */
+            color: white; /* White text color */
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.postimg.cc/rsNkRpbK/logo.png" alt="EvoCom Logo" class="logo">
+            <h1>Welcome to EvoCom!</h1>
+        </div>
+        <div class="content">
+            <p>Hi {{ user.username }},</p>
+            <p>Thank you for registering with EvoCom. We're thrilled to have you on board!</p>
+            <p>To get started, here are a few things you can do:</p>
+            <ul>
+                <li>Update your profile with your interests and preferences.</li>
+                <li>Explore and register for upcoming community events.</li>
+                <li>Stay tuned for notifications about new events and updates.</li>
+            </ul>
+            <p>If you have any questions or need assistance, feel free to reach out to us at support@evocom.com.</p>
+            <p>We look forward to seeing you at our events!</p>
+            <p>Best regards,</p>
+            <p>The EvoCom Team</p>
+            <p>
+                <a href="#" class="button">Login to Your Account</a>
+            </p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 EvoCom. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

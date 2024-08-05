@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select User Type</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Raleway, sans-serif;
+            background-color: #FFFFFF;
+            color: #333;
+        }
+        .main-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .main-container h2 {
+            margin-bottom: 30px;
+            color: #FF416C;
+            font-size: 30px;
+            font-weight: 300;
+        }
+        .radio-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .custom-radio input {
+            display: none;
+        }
+        .radio-btn {
+            width: 240px;
+            height: 340px;
+            border: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 0 20px #c3c3c367;
+            cursor: pointer;
+            transition: border 0.3s ease, transform 0.3s;
+        }
+        .radio-btn > i {
+            color: #FFFFFF;
+            background-color: #FF4B2B;
+            font-size: 20px;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) scale(2);
+            border-radius: 50px;
+            padding: 3px;
+            transition: 0.5s;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .radio-btn img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .radio-btn h3 {
+            color: #FF416C;
+            font-size: 18px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .custom-radio input:checked + .radio-btn {
+            border: 2px solid #FF4B2B;
+            transform: scale(1.05);
+        }
+        .custom-radio input:checked + .radio-btn > i {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        .create-account-btn {
+            background-color: #FF4B2B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .create-account-btn:hover {
+            background-color: #FF416C;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <form method="post" action="{% url 'users:select_user_type' %}">
+            {% csrf_token %}
+            <h2>Select Your Role</h2>
+            <div class="radio-buttons">
+                <label class="custom-radio">
+                    <input type="radio" name="role" value="member" checked>
+                    <span class="radio-btn"><i class="las la-check"></i>
+                        <img src="{% static 'img/member.png' %}" alt="member img">
+                        <h3>Join Communities</h3>
+                    </span>
+                </label>
+                <label class="custom-radio">
+                    <input type="radio" name="role" value="organizer">
+                    <span class="radio-btn"><i class="las la-check"></i>
+                        <img src="{% static 'img/organizer.png' %}" alt="organizer img">
+                        <h3>Create Events</h3>
+                    </span>
+                </label>
+                <label class="custom-radio">
+                    <input type="radio" name="role" value="community_admin">
+                    <span class="radio-btn"><i class="las la-check"></i>
+                        <img src="{% static 'img/community_admin.png' %}" alt="community admin img">
+                        <h3>Manage Communities</h3>
+                    </span>
+                </label>
+            </div>
+            <button type="submit" class="create-account-btn">Next</button>
+        </form>
+    </div>
+</body>
+</html>

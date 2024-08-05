@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700");
+        *
+        {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body 
+        {
+            font-family: Raleway, sans-serif;
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            color: #FFFFFF;
+        }
+        .container 
+        {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #FFFFFF;
+        }
+        .container h1 
+        {
+            margin-bottom: 30px;
+            font-size: 30px;
+            font-weight: 300;
+        }
+        form 
+        {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #FFFFFF;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            border-radius: 10px;
+            color: #555555;
+        }
+        label 
+        {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 400;
+        }
+        input, select, textarea 
+        {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .create-account-btn {
+            background-color: #FF4B2B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: not-allowed;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .create-account-btn.enabled {
+            cursor: pointer;
+        }
+        .create-account-btn:hover.enabled {
+            background-color: #FF416C;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Profile</h1>
+        <form id="complete-profile-form" method="post" action="{% url 'users:complete_profile' %}">
+            {% csrf_token %}
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+            <div class="error-message" id="first-name-error">Please enter your first name.</div>
+            
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+            <div class="error-message" id="last-name-error">Please enter your last name.</div>
+            
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" required>
+            <div class="error-message" id="phone-number-error">Please enter a valid phone number.</div>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <div class="error-message" id="gender-error">Please select your gender.</div>
+            
+            <label for="place">Place:</label>
+            <input type="text" id="place" name="place" required>
+            <div class="error-message" id="place-error">Please enter your place.</div>
+            
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+            <div class="error-message" id="address-error">Please enter your address.</div>
+            
+            <button class="create-account-btn" id="submit-btn" type="submit" disabled>Save Profile</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Function to check form validity
+            function checkFormValidity() {
+                var isValid = true;
+
+                // Clear previous error messages
+                $('.error-message').hide();
+
+                // Validate first name
+                if ($('#first_name').val().trim() === '') {
+                    $('#first-name-error').show();
+                    isValid = false;
+                }
+
+                // Validate last name
+                if ($('#last_name').val().trim() === '') {
+                    $('#last-name-error').show();
+                    isValid = false;
+                }
+
+                // Validate phone number
+                var phonePattern = /^[0-9]{10}$/; // Adjust pattern as needed
+                if (!phonePattern.test($('#phone_number').val())) {
+                    $('#phone-number-error').show();
+                    isValid = false;
+                }
+
+                // Validate gender
+                if ($('#gender').val() === null) {
+                    $('#gender-error').show();
+                    isValid = false;
+                }
+
+                // Validate place
+                if ($('#place').val().trim() === '') {
+                    $('#place-error').show();
+                    isValid = false;
+                }
+
+                // Validate address
+                if ($('#address').val().trim() === '') {
+                    $('#address-error').show();
+                    isValid = false;
+                }
+
+                // Toggle submit button
+                if (isValid) {
+                    $('#submit-btn').prop('disabled', false).addClass('enabled');
+                } else {
+                    $('#submit-btn').prop('disabled', true).removeClass('enabled');
+                }
+            }
+
+            // Attach validation to input changes
+            $('#complete-profile-form input, #complete-profile-form select, #complete-profile-form textarea').on('input change', function() {
+                checkFormValidity();
+            });
+
+            // Initial check
+            checkFormValidity();
+        });
+    </script>
+</body>
+</html>

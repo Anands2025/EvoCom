@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Community</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,400i,700");
+        *
+        {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body 
+        {
+            font-family: Raleway, sans-serif;
+            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            color: #FFFFFF;
+        }
+        .container 
+        {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #FFFFFF;
+        }
+        .container h1 
+        {
+            margin-bottom: 30px;
+            font-size: 30px;
+            font-weight: 300;
+        }
+        form 
+        {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #FFFFFF;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            border-radius: 10px;
+            color: #555555;
+        }
+        label 
+        {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 400;
+        }
+        input, select, textarea 
+        {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .create-account-btn {
+            background-color: #FF4B2B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: not-allowed;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .create-account-btn.enabled {
+            cursor: pointer;
+        }
+        .create-account-btn:hover.enabled {
+            background-color: #FF416C;
+        }
+        .cover-image-preview {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Community</h1>
+        <form id="create-community-form" method="post" action="{% url 'communities:create_community' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="name">Community Name:</label>
+            <input type="text" id="name" name="name" required>
+            <div class="error-message" id="name-error">Please enter the community name.</div>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="3" required></textarea>
+            <div class="error-message" id="description-error">Please enter a description.</div>
+            
+            <label for="cover_image">Cover Image:</label>
+            <input type="file" id="cover_image" name="cover" accept="image/*">
+            <img id="cover_image_preview" class="cover-image-preview" src="#" alt="Cover Image Preview" style="display:none;">
+            
+            <button class="create-account-btn" id="submit-btn" type="submit" disabled>Create Community</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Function to check form validity
+            function checkFormValidity() {
+                var isValid = true;
+
+                // Clear previous error messages
+                $('.error-message').hide();
+
+                // Validate community name
+                if ($('#name').val().trim() === '') {
+                    $('#name-error').show();
+                    isValid = false;
+                }
+
+                // Validate description
+                if ($('#description').val().trim() === '') {
+                    $('#description-error').show();
+                    isValid = false;
+                }
+
+                // Toggle submit button
+                if (isValid) {
+                    $('#submit-btn').prop('disabled', false).addClass('enabled');
+                } else {
+                    $('#submit-btn').prop('disabled', true).removeClass('enabled');
+                }
+            }
+
+            // Attach validation to input changes
+            $('#create-community-form input, #create-community-form select, #create-community-form textarea').on('input change', function() {
+                checkFormValidity();
+            });
+
+            // Handle cover image preview
+            $('#cover_image').on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#cover_image_preview').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    $('#cover_image_preview').hide();
+                }
+            });
+
+            // Initial check
+            checkFormValidity();
+        });
+    </script>
+</body>
+</html>
